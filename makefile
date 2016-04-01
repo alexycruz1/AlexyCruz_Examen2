@@ -1,5 +1,5 @@
 FriendList.exe:	main.o person.o node.o list.o
-	g++ main.o person.o node.o list.o -lncurses -o FriendList
+	g++ main.o person.o node.o list.o -lncurses -o fr
 
 main.o:	main.cpp person.hpp
 	g++ -c main.cpp -lncurses
