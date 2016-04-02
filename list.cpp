@@ -25,16 +25,44 @@ Person List::getHead(){
 }
 
 void List::insert(int posicion, Person persona){
-	Node* temp = head;
-
-	for (int i = 0; i < posicion; i++){
-		if (i == posicion){
-			temp = temp -> getNext();
+	if (posicion > 0){
+		if (!head -> hasNext()){
+			if (posicion == 1){
+				head -> setNext(new Node(persona));
+			}else if(posicion > 1){
+				cerr << "Index out of bound" << endl;
+			}else{
+				Node* temp = head;
+				head -> setValue(persona);
+				head -> setNext(temp);
+			}
+		}else{
+			Node* temp = head;
+			int cont = 0;
+			if (size() >= posicion){
+				while(cont < posicion - 1){
+					temp = temp -> getNext();
+					cont++;
+				}
+				Node* nuevo = new Node(persona);
+				if (temp -> hasNext()){
+					Node* temp2 = temp -> getNext();
+					nuevo -> setNext(temp2);
+				}
+				temp -> setNext(nuevo);
+			}
 		}
+	}else if (posicion == 0){
+		if (head != NULL){
+			Node* temp = head;
+			setHead(persona);
+			head -> setNext(temp);
+		}else{
+			setHead(persona);
+		}
+	}else{
+		cerr << "Invalid position" << endl;
 	}
-
-	Node* nuevo_nodo = new Node(persona);
-	nuevo_nodo -> setNext(temp -> getNext());
 }
 
 Person List::at(int posicion){
@@ -67,10 +95,11 @@ void List::concat(List* lista){
 }
 
 int List::find(Person persona){
-	int  cont;
+	int cont = 0;
 	Node* temp = head;
+
 	while(temp -> hasNext()){
-		if ((temp -> getValue().getName() == persona.getName()) == false){
+		if (strcmp(temp -> getValue().getName(), persona.getName()) == false){
 			return cont;
 		}else{
 			cont++;
@@ -87,15 +116,21 @@ int List::size(){
 		temp = temp -> getNext();
 		cont++;
 	}
-
 	return cont;
 }
 
 void List::push_back(Person persona){
 	Node* temp = head;
-
+	if (head == NULL){
+		while(temp -> hasNext()){
+			temp = temp -> getNext();
+		}	
+		temp -> setNext(new Node(persona));
+	}else{
+		head = new Node(persona);
+	}
 }
 
 Node* List::first(){
-
+	return head;
 }

@@ -9,9 +9,11 @@ Node::Node(){
 }
 
 Node::~Node(){
+	delete next;
 }
 
 Node::Node(Person persona){
+	next = new Node();
 	setValue(persona);
 }
 	
